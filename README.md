@@ -1,94 +1,204 @@
+# Mono repo NX setup
+
+**Table of contents**
+1. [Tags and Dependencies](#tags-and-dependencies)
+    * [Tags](#tags)
+    * [Dependencies](#dependencies)
+1. [Generators](#generators)
+    * [tag](#tag)
+    * [ui](#ui)
+1. [NX Dependency Graph](#nx-dependency-graph)
+    1. [No change made to the project](#no-change-made-to-the-project)
+    1. [TextField library component change](#textfield-library-component-change)
+    1. [FeatureCart library component change](#featurecart-library-component-change)
+1. [Code Owners](#code-owners)
+1. [Keeping code moving and accessible](#keeping-code-moving-and-accessible)
+
+1. [Short Pull Requests](#short-pull-requests)
+
+1. [production vs experimental](#production-vs-experimental)
 
 
-# Mono
+1. [Feature list to cover](#feature-list-to-cover)
+1. [Structure example](#structure-example)
 
-This project was generated using [Nx](https://nx.dev).
-
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-logo.png" width="450"></p>
-
-🔎 **Smart, Extensible Build Framework**
-
-## Adding capabilities to your workspace
-
-Nx supports many plugins which add capabilities for developing different types of applications and different tools.
-
-These capabilities include generating applications, libraries, etc as well as the devtools to test, and build projects as well.
-
-Below are our core plugins:
-
-- [React](https://reactjs.org)
-  - `npm install --save-dev @nrwl/react`
-- Web (no framework frontends)
-  - `npm install --save-dev @nrwl/web`
-- [Angular](https://angular.io)
-  - `npm install --save-dev @nrwl/angular`
-- [Nest](https://nestjs.com)
-  - `npm install --save-dev @nrwl/nest`
-- [Express](https://expressjs.com)
-  - `npm install --save-dev @nrwl/express`
-- [Node](https://nodejs.org)
-  - `npm install --save-dev @nrwl/node`
-
-There are also many [community plugins](https://nx.dev/community) you could add.
-
-## Generate an application
-
-Run `nx g @nrwl/react:app my-app` to generate an application.
-
-> You can use any of the plugins above to generate applications as well.
-
-When using Nx, you can create multiple applications and libraries in the same workspace.
-
-## Generate a library
-
-Run `nx g @nrwl/react:lib my-lib` to generate a library.
-
-> You can also use any of the plugins above to generate libraries as well.
-
-Libraries are shareable across libraries and applications. They can be imported from `@mono/mylib`.
-
-## Development server
-
-Run `nx serve my-app` for a dev server. Navigate to http://localhost:4200/. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-Run `nx g @nrwl/react:component my-component --project=my-app` to generate a new component.
-
-## Build
-
-Run `nx build my-app` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
-
-## Running unit tests
-
-Run `nx test my-app` to execute the unit tests via [Jest](https://jestjs.io).
-
-Run `nx affected:test` to execute the unit tests affected by a change.
-
-## Running end-to-end tests
-
-Run `ng e2e my-app` to execute the end-to-end tests via [Cypress](https://www.cypress.io).
-
-Run `nx affected:e2e` to execute the end-to-end tests affected by a change.
-
-## Understand your workspace
-
-Run `nx dep-graph` to see a diagram of the dependencies of your projects.
-
-## Further help
-
-Visit the [Nx Documentation](https://nx.dev) to learn more.
+The **apps** and **libraries** in the monorepo can make use of tags to mark rules for dependencies.
 
 
+Back to [Mono repo NX setup](#mono-repo-nx-setup)
 
-## ☁ Nx Cloud
+### Tags
 
-### Distributed Computation Caching & Distributed Task Execution
+You can add `"tags": ["type:app", "type:util", "type:feature", "type:ui", "type:theme"]` to the `project.json` file.
 
-<p style="text-align: center;"><img src="https://raw.githubusercontent.com/nrwl/nx/master/images/nx-cloud-card.png"></p>
+### Dependencies
 
-Nx Cloud pairs with Nx in order to enable you to build and test code more rapidly, by up to 10 times. Even teams that are new to Nx can connect to Nx Cloud and start saving time instantly.
+* Apps should only depend on feature and util
+* feature should only depend on ui, util and data-access
+* ui should only depend on util
+* data-access should only depend on util
 
-Teams using Nx gain the advantage of building full-stack applications with their preferred framework alongside Nx’s advanced code generation and project dependency graph, plus a unified experience for both frontend and backend developers.
+Make use of the **sourceTag** and **onlyDependantOnLibsWithTags** properties, inside of `"@nrwl/nx/enforce-module-boundaries"` present in the `.eslintrc.json` file to create rules and mark project dependencies.
 
-Visit [Nx Cloud](https://nx.app/) to learn more.
+Example:
+
+```
+{
+  "sourceTag": "type:app",
+  "onlyDependantOnLibsWithTags": ["type:feature", "type:util"]
+},
+{
+  "sourceTag": "type:feature",
+  "onlyDependantOnLibsWithTags": ["type:ui", "type:util", "data-access"]
+},
+{
+  "sourceTag": "type:ui",
+  "onlyDependantOnLibsWithTags": ["type:util"]
+},
+{
+  "sourceTag": "type:data-access",
+  "onlyDependantOnLibsWithTags": ["type:util"]
+},
+
+```
+
+
+Back to [Mono repo NX setup](#mono-repo-nx-setup)
+
+## Generators
+
+This mono repo has two generators present, **tag** and **ui**, as examples.
+
+### tag
+
+The **tag** generator creates libraries and assigns tags on creation. You can chose your library name, platform, scope and tag.
+
+Usage:
+```
+nx workspace-genearator tag my-new-library
+```
+or use the VisualStudio code addon.
+
+### ui
+
+The **ui** generator uses template files to bootstrap a component with all it's starter files.
+
+
+Back to [Mono repo NX setup](#mono-repo-nx-setup)
+
+## NX Dependency Graph
+
+Running `nx dep-graph`
+
+
+Back to [Mono repo NX setup](#mono-repo-nx-setup)
+
+## NX affected
+
+### No change made to the project
+
+Running `nx affected:build` should come back with a message: ` NX  No projects with "build" were run`
+
+### TextField library component change
+
+Running `nx affected:build` should come back with a message: 
+
+
+```
+NX  Running target build for 3 project(s) and 1 task(s) they depend on:
+
+  - healthcare
+  - vitamin
+  - web
+```
+
+All **healthcare**, **vitamin** and **web** have in the dependency tree the TextField component.
+
+### FeatureCart library component change
+
+Running `nx affected:build` should come back with a message: 
+
+
+```
+NX  Running target build for 1 project(s) and 1 task(s) they depend on:
+
+  - healthcare
+```
+
+Only the **healthcare** app depends on **FeatureCart**
+
+
+Back to [Mono repo NX setup](#mono-repo-nx-setup)
+
+## Code Owners
+
+As you can see in the **CODEOWNERS** file, you can configure protected paths inside your mono repo, that can be picked up by GitHub and GitLab. This will enable an option in GitHub or GitLab when creating custom protection rules for branches, that will allow you to check that this pull request must be approved by one of the entities with access present in the **CODEOWNERS** file.
+
+## Keeping code moving and accessible
+
+### Short Pull Requests
+
+Split tickets into smaller ones or use tasks to evolve into keeping pull requests short lived to speed up access to features and bug fixes for other teams.
+
+### production vs experimental
+
+Develop new features under `"sourceTag": "stability:experimental"`, so linter can complain if anyone want to use it in production.
+
+## Feature list to cover
+
+* enhance the mono-repo with more generators and rules
+* component file structure (pages, features, ui, util, data-access)
+* theming: base and variation themes
+* using media files: vectors, images etc
+* using simple icons as vectors in fonts
+* responsive or fluid typography
+* SEO evaluation and guide
+
+## Structure example
+
+```
+├── apps
+│   ├── clothes4u
+│   ├── get-fit
+│   ├── my-app
+│   └── win-machine
+└── libs
+    ├── feature
+    │   ├── card
+    │   ├── cta
+    │   ├── footer
+    │   ├── hero
+    │   ├── login
+    │   └── side-menu
+    ├── feature-get-fit
+    │   ├── checkout
+    │   │   ├── basket
+    │   │   ├── buy-more
+    │   │   ├── invoice
+    │   │   ├── product-list
+    │   │   └── product-review
+    │   └── color-picker
+    ├── feature-my-app
+    │   ├── avatar-builder
+    │   ├── cash-manager
+    │   ├── profile-selector
+    │   ├── shared
+    │   │   ├── live-status
+    │   │   └── profile-display
+    │   └── time-manager
+    ├── store
+    ├── theme
+    ├── theme-get-fit
+    ├── theme-my-app
+    ├── ui
+    │   ├── button
+    │   ├── divider
+    │   ├── flex
+    │   ├── grid
+    │   ├── smart-table
+    │   └── text-field
+    └── util
+        ├── calculator
+        ├── formatter
+        └── language
+```

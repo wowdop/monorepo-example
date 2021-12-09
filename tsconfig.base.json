@@ -14,7 +14,14 @@
     "skipLibCheck": true,
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
-    "paths": {}
+    "paths": {
+      "@mono/feature": ["libs/feature/src/index.ts"],
+      "@mono/healthcare-store": ["libs/healthcare-store/src/index.ts"],
+      "@mono/theme": ["libs/theme/src/index.ts"],
+      "@mono/ui": ["libs/ui/src/index.ts"],
+      "@mono/util": ["libs/util/src/index.ts"],
+      "@mono/vitamin-store": ["libs/vitamin-store/src/index.ts"]
+    }
   },
   "exclude": ["node_modules", "tmp"]
 }

@@ -1,0 +1,23 @@
+{
+  "root": "libs/healthcare-store",
+  "sourceRoot": "libs/healthcare-store/src",
+  "projectType": "library",
+  "tags": ["stability:production"],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/healthcare-store/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/healthcare-store"],
+      "options": {
+        "jestConfig": "libs/healthcare-store/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

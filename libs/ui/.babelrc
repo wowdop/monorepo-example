@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "next/babel",
+    "@babel/preset-react"
+  ],
+  "plugins": [
+    [
+      "styled-components",
+      {
+        "pure": true,
+        "ssr": true
+      }
+    ]
+  ]
+}

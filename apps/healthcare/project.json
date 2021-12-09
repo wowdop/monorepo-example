@@ -1,0 +1,55 @@
+{
+  "root": "apps/healthcare",
+  "sourceRoot": "apps/healthcare",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/next:build",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "root": "apps/healthcare",
+        "outputPath": "dist/apps/healthcare"
+      },
+      "configurations": {
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/next:server",
+      "options": {
+        "buildTarget": "healthcare:build",
+        "dev": true,
+        "port": 4210
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "healthcare:build:production",
+          "dev": false
+        }
+      }
+    },
+    "export": {
+      "executor": "@nrwl/next:export",
+      "options": {
+        "buildTarget": "healthcare:build:production"
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/apps/healthcare"],
+      "options": {
+        "jestConfig": "apps/healthcare/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/healthcare/**/*.{ts,tsx,js,jsx}"]
+      }
+    }
+  },
+  "tags": ["type:app", "platform:web", "stability:production"]
+}

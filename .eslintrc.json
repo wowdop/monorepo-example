@@ -10,8 +10,44 @@
           "error",
           {
             "enforceBuildableLibDependency": true,
-            "allow": [],
+            "allow": ["lodash"],
             "depConstraints": [
+              {
+                "sourceTag": "type:app",
+                "onlyDependantOnLibsWithTags": ["type:feature", "type:util"]
+              },
+              {
+                "sourceTag": "type:feature",
+                "onlyDependantOnLibsWithTags": ["type:ui", "type:util", "data-access"]
+              },
+              {
+                "sourceTag": "type:ui",
+                "onlyDependantOnLibsWithTags": ["type:util"]
+              },
+              {
+                "sourceTag": "type:data-access",
+                "onlyDependantOnLibsWithTags": ["type:util"]
+              },
+              {
+                "sourceTag": "platform:web",
+                "onlyDependantOnLibsWithTags": ["platform:web", "platform:any"]
+              },
+              {
+                "sourceTag": "platform:node",
+                "onlyDependantOnLibsWithTags": ["platform:node", "platform:any"]
+              },
+              {
+                "sourceTag": "platform:any",
+                "onlyDependantOnLibsWithTags": ["platform:any"]
+              },
+              {
+                "sourceTag": "stability:production",
+                "onlyDependantOnLibsWithTags": ["stability:production"]
+              },
+              {
+                "sourceTag": "stability:experimental",
+                "onlyDependantOnLibsWithTags": ["stability:experimental"]
+              },
               {
                 "sourceTag": "*",
                 "onlyDependOnLibsWithTags": ["*"]

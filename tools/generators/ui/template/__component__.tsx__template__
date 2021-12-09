@@ -1,0 +1,18 @@
+import * as T from './<%= dasherize(projectName)%>.type';
+import * as S from './<%= dasherize(projectName)%>.style';
+
+const <%= projectName%> = ({ children, text }: T.<%= dasherize(projectName)%>) => {
+  return (
+    <S.<%= projectName%>>
+      <h1>Welcome to <%= projectName%>, {text}!</h1>
+      <div>{children}</div>
+    </S.<%= projectName%>>
+  );
+};
+
+<%= projectName%>.defaultProps = {
+  text: '',
+  children: null,
+};
+
+export default <%= projectName%>;

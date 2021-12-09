@@ -1,0 +1,23 @@
+{
+  "root": "libs/vitamin-store",
+  "sourceRoot": "libs/vitamin-store/src",
+  "projectType": "library",
+  "tags": ["stability:experimental"],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/vitamin-store/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/vitamin-store"],
+      "options": {
+        "jestConfig": "libs/vitamin-store/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

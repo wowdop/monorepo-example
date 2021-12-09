@@ -1,7 +1,14 @@
 {
   "version": 2,
   "projects": {
-    "web": "apps/web",
-    "web-e2e": "apps/web-e2e"
+    "feature": "libs/feature",
+    "healthcare": "apps/healthcare",
+    "healthcare-store": "libs/healthcare-store",
+    "theme": "libs/theme",
+    "ui": "libs/ui",
+    "util": "libs/util",
+    "vitamin": "apps/vitamin",
+    "vitamin-store": "libs/vitamin-store",
+    "web": "apps/web"
   }
 }

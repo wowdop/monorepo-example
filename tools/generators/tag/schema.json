@@ -1,0 +1,37 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "$id": "tag",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "Library name",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "type": {
+      "type": "string",
+      "description": "Type of Library",
+      "enum": ["ui", "feature", "util", "data-access"],
+      "$default": "ui",
+      "x-prompt": "What type of library do you want to create?"
+    },
+    "scope": {
+      "type": "string",
+      "description": "Scope of the library",
+      "$default": "shared",
+      "x-prompt": "What client does this library belong to?"
+    },
+    "platform": {
+      "type": "string",
+      "description": "The platform of the library",
+      "enum": ["web", "node", "any"],
+      "$default": "web",
+      "x-prompt": "What platform will the library work on?"
+    }
+  },
+  "required": ["name"]
+}

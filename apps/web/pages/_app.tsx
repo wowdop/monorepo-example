@@ -1,7 +1,7 @@
 import { AppProps } from 'next/app';
 import Head from 'next/head';
 
-function CustomApp({ Component, pageProps }: AppProps) {
+const CustomApp = ({ Component, pageProps }: AppProps) => {
   return (
     <>
       <Head>
@@ -15,6 +15,6 @@ function CustomApp({ Component, pageProps }: AppProps) {
       </div>
     </>
   );
-}
+};
 
 export default CustomApp;
