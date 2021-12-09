@@ -20,6 +20,7 @@
 
 
 1. [Feature list to cover](#feature-list-to-cover)
+1. [Other topics to consider working on](#other-topics-to-consider-working-on)
 1. [Structure example](#structure-example)
 
 The **apps** and **libraries** in the monorepo can make use of tags to mark rules for dependencies.
@@ -153,6 +154,12 @@ Develop new features under `"sourceTag": "stability:experimental"`, so linter ca
 * using simple icons as vectors in fonts
 * responsive or fluid typography
 * SEO evaluation and guide
+
+## Other topics to consider working on
+
+* Custom ESLint rules and fix
+* Support multiple API version
+* Pipeline distrubute workload (split into multiple jobs using `nx print-affected`)
 
 ## Structure example
 
